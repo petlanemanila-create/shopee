@@ -1,7 +1,6 @@
 {
   "name": "shopee-products-dashboard",
   "version": "1.0.0",
-  "private": true,
   "description": "Local dashboard for Shopee products and sold quantities.",
   "type": "module",
   "main": "app.js",
@@ -11,7 +10,7 @@
     "dev": "node app.js"
   },
   "engines": {
-    "node": ">=18"
+    "node": "20.x"
   },
   "dependencies": {
     "express": "^4.22.2"
