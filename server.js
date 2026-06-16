@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
+import express from "express";
 import fs from "node:fs/promises";
-import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -26,7 +26,9 @@ const config = {
 const dashboardCache = await readDashboardCache();
 const cacheRefreshes = new Map();
 
-const server = http.createServer(async (req, res) => {
+const app = express();
+
+app.use(async (req, res) => {
   try {
     const url = new URL(req.url, `http://${req.headers.host}`);
 
@@ -126,7 +128,7 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(config.port, () => {
+const server = app.listen(config.port, () => {
   console.log(`Shopee dashboard running at http://localhost:${config.port}`);
 });
 

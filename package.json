@@ -4,7 +4,9 @@
   "private": true,
   "description": "Local dashboard for Shopee products and sold quantities.",
   "type": "module",
+  "main": "server.js",
   "scripts": {
+    "build": "echo \"No build step required\"",
     "start": "node server.js",
     "dev": "node server.js"
   },
