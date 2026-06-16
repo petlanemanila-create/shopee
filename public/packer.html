@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Packing Station</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="packer-body">
+    <main class="packer-shell">
+      <section id="loginScreen" class="packer-card login-screen">
+        <p class="eyebrow">Packing Station</p>
+        <h1>Staff login</h1>
+        <label>
+          <span>Staff name</span>
+          <input id="staffName" type="text" placeholder="Enter your name" autocomplete="name" />
+        </label>
+        <button id="loginButton" type="button">Login</button>
+      </section>
+
+      <section id="searchScreen" class="packer-screen hidden">
+        <header class="packer-header">
+          <div>
+            <p class="eyebrow">Packing Station</p>
+            <h1 id="welcomeName">Scan order</h1>
+          </div>
+          <button id="logoutButton" class="secondary" type="button">Logout</button>
+        </header>
+
+        <section class="packer-card">
+          <div class="scan-box">
+            <input id="orderSearch" type="text" placeholder="Enter or scan order ID" autocomplete="off" />
+            <button id="cameraScan" class="secondary" type="button">Camera scan</button>
+          </div>
+          <div id="cameraPanel" class="scanner-panel hidden">
+            <video id="cameraVideo" autoplay muted playsinline></video>
+            <button id="stopCamera" class="secondary" type="button">Stop scan</button>
+          </div>
+          <p class="muted center">Tap a matching order to assign it to yourself.</p>
+          <div id="orderMatches" class="packer-match-list"></div>
+          <p id="searchMessage" class="updated center"></p>
+        </section>
+
+        <section class="packer-card today-card">
+          <div class="today-stat">
+            <span id="todayPackedLabel">Order packed</span>
+            <strong id="todayPackedCount">0</strong>
+          </div>
+          <div>
+            <h2>Order List</h2>
+            <div id="todayPackedList" class="today-list">
+              <p class="empty">No packed orders today.</p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section id="detailScreen" class="packer-screen hidden">
+        <header class="packer-header">
+          <div>
+            <p class="eyebrow">Order Details</p>
+            <h1 id="detailOrderId">-</h1>
+          </div>
+          <button id="backToSearch" class="secondary" type="button">Search</button>
+        </header>
+
+        <section class="packer-card order-detail-card">
+          <section id="packedStatus" class="packed-status hidden">
+            <strong>PACKED</strong>
+            <span>Staff: <b id="packedStaff">-</b></span>
+            <span>Time: <b id="packedTime">-</b></span>
+          </section>
+          <div class="detail-stat">
+            <strong id="detailOrderDate">-</strong>
+            <span>Order date</span>
+          </div>
+          <div id="detailItems" class="item-detail-list"></div>
+          <section class="photo-proof">
+            <div>
+              <span>Photo proof</span>
+              <p id="photoCount" class="muted">0 of 5 photos. Minimum 3 required.</p>
+            </div>
+            <input id="detailPhoto" class="hidden" type="file" accept="image/*" capture="environment" multiple />
+            <button id="takePhotosButton" class="secondary" type="button">Take photos</button>
+            <div id="photoPreview" class="photo-preview"></div>
+          </section>
+          <div class="packer-actions">
+            <button id="packedButton" type="button">Order packed</button>
+            <button id="unassignButton" class="danger" type="button">Unassign</button>
+          </div>
+          <p id="detailMessage" class="updated center"></p>
+        </section>
+      </section>
+    </main>
+    <section id="photoModal" class="photo-modal hidden" aria-label="Photo preview">
+      <button id="closePhotoModal" class="photo-modal-close" type="button">Close</button>
+      <img id="photoModalImage" src="" alt="Photo preview" />
+    </section>
+    <script src="/packer.js" type="module"></script>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+.env
+.shopee-token.json
+node_modules/
+.DS_Store
+data/
+deploy/
+public/packing-photos/
+shopee-dashboard-review.png

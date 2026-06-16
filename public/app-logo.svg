@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Shopee dashboard logo">
+  <rect width="512" height="512" rx="96" fill="#e9482b"/>
+  <rect x="116" y="146" width="280" height="246" rx="34" fill="#ffffff"/>
+  <path d="M176 146c0-50 34-86 80-86s80 36 80 86" fill="none" stroke="#ffffff" stroke-width="36" stroke-linecap="round"/>
+  <path d="M166 224h180" stroke="#17202a" stroke-width="28" stroke-linecap="round"/>
+  <path d="M166 288h128" stroke="#17202a" stroke-width="28" stroke-linecap="round"/>
+  <circle cx="350" cy="340" r="54" fill="#2a9d8f"/>
+  <path d="M328 342l16 16 32-42" fill="none" stroke="#ffffff" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

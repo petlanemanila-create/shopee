@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shopee Operations Dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Shopee Operations</p>
+          <h1>Order and product dashboard</h1>
+        </div>
+        <div class="actions">
+          <select id="days" aria-label="Sales period">
+            <option value="7" selected>Last 7 days</option>
+            <option value="30">Last 30 days</option>
+            <option value="90">Last 90 days</option>
+            <option value="180">Last 180 days</option>
+            <option value="365">Last 365 days</option>
+          </select>
+          <button id="refresh" type="button">Refresh</button>
+        </div>
+      </header>
+
+      <section id="setup" class="setup hidden">
+        <h2>Connect Shopee</h2>
+        <p id="setupText"></p>
+        <a class="button-link" href="/auth/start">Authorize shop</a>
+      </section>
+
+      <section class="metrics" aria-label="Summary">
+        <article>
+          <span>Total products</span>
+          <strong id="totalProducts">0</strong>
+        </article>
+        <article>
+          <span>Items sold</span>
+          <strong id="totalSold">0</strong>
+        </article>
+        <article>
+          <span>Shop ID</span>
+          <strong id="shopId">-</strong>
+        </article>
+      </section>
+
+      <nav class="tabs" aria-label="Dashboard views">
+        <button id="ordersTab" class="tab active" type="button" aria-controls="ordersView" aria-selected="true">Orders</button>
+        <button id="packingTab" class="tab" type="button" aria-controls="packingView" aria-selected="false">Packing</button>
+        <button id="productsTab" class="tab" type="button" aria-controls="productsView" aria-selected="false">Products</button>
+      </nav>
+
+      <section id="ordersView" class="view active" aria-labelledby="ordersTab">
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Order Tracking</p>
+              <h2>Fulfillment status</h2>
+            </div>
+            <p id="orderTotal" class="muted">0 orders</p>
+          </div>
+          <div class="order-metrics" aria-label="Order status summary">
+            <article class="urgent">
+              <span>Needs preparation</span>
+              <strong id="orderPreparation">0</strong>
+            </article>
+            <article>
+              <span>Pending shipment</span>
+              <strong id="pendingShipment">0</strong>
+            </article>
+            <article>
+              <span>Processed</span>
+              <strong id="processedOrders">0</strong>
+            </article>
+            <article>
+              <span>Shipped</span>
+              <strong id="shippedOrders">0</strong>
+            </article>
+            <article>
+              <span>Completed</span>
+              <strong id="completedOrders">0</strong>
+            </article>
+            <article>
+              <span>Cancelled</span>
+              <strong id="cancelledOrders">0</strong>
+            </article>
+            <article>
+              <span>Unpaid</span>
+              <strong id="unpaidOrders">0</strong>
+            </article>
+            <article>
+              <span>Order items</span>
+              <strong id="orderItems">0</strong>
+            </article>
+          </div>
+        </section>
+
+        <section class="table-wrap orders-wrap">
+          <div class="table-title">
+            <h2>Recent orders</h2>
+            <p class="muted">Newest orders in the selected period</p>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Status</th>
+                <th>Buyer</th>
+                <th class="number">Items</th>
+                <th class="number">Amount</th>
+                <th>Created</th>
+                <th>Carrier</th>
+              </tr>
+            </thead>
+            <tbody id="orders">
+              <tr>
+                <td colspan="7" class="empty">Loading orders...</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </section>
+
+      <section id="packingView" class="view" aria-labelledby="packingTab">
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Packing Station</p>
+              <h2>Assign and complete packed orders</h2>
+            </div>
+            <p id="packingTotal" class="muted">0 records</p>
+          </div>
+
+          <div class="packing-grid">
+            <label>
+              <span>Packer</span>
+              <select id="packerName">
+                <option value="">Select packer</option>
+              </select>
+            </label>
+            <label>
+              <span>Waybill or order code</span>
+              <input id="packingCode" type="text" placeholder="Type first/last 4 digits or scan" autocomplete="off" />
+            </label>
+            <button id="scanBarcode" class="secondary" type="button">Camera scan</button>
+            <button id="assignPacking" type="button">Assign to Packer</button>
+          </div>
+          <div id="packingMatches" class="packing-matches hidden"></div>
+
+          <div id="scannerPanel" class="scanner-panel hidden">
+            <video id="scannerVideo" autoplay muted playsinline></video>
+            <button id="stopScan" class="secondary" type="button">Stop scan</button>
+          </div>
+
+          <div id="packingItems" class="packing-items hidden">
+            <div class="section-head">
+              <div>
+                <span class="muted">Items to pack</span>
+                <strong id="packingItemsTitle">-</strong>
+              </div>
+              <p id="packingItemsMeta" class="muted"></p>
+            </div>
+            <div id="packingItemsList" class="pack-list"></div>
+          </div>
+
+          <div id="activePacking" class="active-packing hidden">
+            <div>
+              <span class="muted">Current packing task</span>
+              <strong id="activePackingCode">-</strong>
+              <p id="activePackingMeta" class="muted"></p>
+            </div>
+            <label class="photo-field">
+              <span>Photo proof</span>
+              <input id="packingPhoto" type="file" accept="image/*" capture="environment" />
+            </label>
+            <button id="removePacking" class="secondary" type="button">Remove task</button>
+            <button id="completePacking" type="button">Complete packing</button>
+          </div>
+          <p id="packingMessage" class="updated"></p>
+        </section>
+
+        <section class="table-wrap orders-wrap">
+          <div class="table-title">
+            <h2>Packing log</h2>
+            <p class="muted">Latest assignments and completed packs</p>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Status</th>
+                <th>Staff</th>
+                <th>Assigned</th>
+                <th>Completed</th>
+                <th>Photo</th>
+              </tr>
+            </thead>
+            <tbody id="packingRecords">
+              <tr>
+                <td colspan="6" class="empty">Loading packing log...</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="detail-panel orders-wrap">
+          <div class="table-title">
+            <h2>Detailed order items</h2>
+            <p class="muted">Items and quantities for packing checks</p>
+          </div>
+          <div id="packingItemDetails" class="item-detail-list">
+            <p class="empty">No packing item details yet.</p>
+          </div>
+        </section>
+      </section>
+
+      <section id="productsView" class="view" aria-labelledby="productsTab">
+        <section class="toolbar">
+          <input id="search" type="search" placeholder="Search products or SKU" />
+          <select id="sort" aria-label="Sort products">
+            <option value="sold">Most sold</option>
+            <option value="name">Name</option>
+            <option value="stock">Stock</option>
+            <option value="price">Price</option>
+          </select>
+        </section>
+
+        <section class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>SKU</th>
+                <th>Status</th>
+                <th class="number">Stock</th>
+                <th class="number">Price</th>
+                <th class="number">Sold</th>
+              </tr>
+            </thead>
+            <tbody id="products">
+              <tr>
+                <td colspan="6" class="empty">Loading products...</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </section>
+      <p id="updated" class="updated"></p>
+    </main>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
