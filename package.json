@@ -4,16 +4,16 @@
   "private": true,
   "description": "Local dashboard for Shopee products and sold quantities.",
   "type": "module",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "build": "echo \"No build step required\"",
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "node app.js",
+    "dev": "node app.js"
   },
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^4.22.2"
   }
 }
